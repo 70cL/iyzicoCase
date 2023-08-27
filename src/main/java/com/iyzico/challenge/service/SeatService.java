@@ -1,5 +1,6 @@
 package com.iyzico.challenge.service;
 
+import com.iyzico.challenge.dto.SeatCreateDTO;
 import com.iyzico.challenge.dto.SeatDTO;
 import com.iyzico.challenge.dto.request.SeatCreateRequest;
 import com.iyzico.challenge.dto.request.SeatListUpdateRequest;
@@ -101,7 +102,7 @@ public class SeatService {
         return modelMapper.map(entity, SeatDTO.class);
     }
 
-    public Seat convertToEntity(SeatDTO dto) {
+    public Seat convertToEntity(SeatCreateDTO dto) {
         return modelMapper.map(dto, Seat.class);
     }
 }

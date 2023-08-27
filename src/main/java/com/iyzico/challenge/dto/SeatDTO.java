@@ -1,21 +1,20 @@
 package com.iyzico.challenge.dto;
 
-import com.iyzico.challenge.entity.Flight;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.NonNull;
 
-import javax.persistence.FetchType;
 import java.math.BigDecimal;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class SeatDTO {
+public class SeatDTO extends SeatCreateDTO{
     private Long id;
-    private String seatNumber;
-    private BigDecimal seatPrice;
+    private Boolean isSold;
+
+    public SeatDTO(Long id, String seatNumber, BigDecimal seatPrice){
+        super(seatNumber,seatPrice);
+        this.id = id;
+    }
 }

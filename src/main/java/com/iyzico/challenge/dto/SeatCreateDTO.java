@@ -1,4 +1,4 @@
-package com.iyzico.challenge.dto.request;
+package com.iyzico.challenge.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SeatUpdateRequest {
+public class SeatCreateDTO {
+    private String seatNumber;
     private BigDecimal seatPrice;
 }

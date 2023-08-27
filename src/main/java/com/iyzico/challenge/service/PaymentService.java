@@ -38,7 +38,7 @@ public class PaymentService {
             }
             catch (Exception ex) {
                 log.error("Selected Seat already sold");
-                throw new PaymentException();
+                throw new PaymentException(ex.getMessage() + " Payment failed.");
             }
         }
 

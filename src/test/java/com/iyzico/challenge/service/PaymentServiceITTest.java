@@ -2,6 +2,7 @@ package com.iyzico.challenge.service;
 
 import com.iyzico.challenge.dto.FlightDTO;
 import com.iyzico.challenge.dto.PaymentDTO;
+import com.iyzico.challenge.dto.SeatCreateDTO;
 import com.iyzico.challenge.dto.SeatDTO;
 import com.iyzico.challenge.dto.request.FlightCreateRequest;
 import com.iyzico.challenge.dto.request.SeatCreateRequest;
@@ -41,10 +42,10 @@ public class PaymentServiceITTest {
         flightReq.setFlightName("Test");
         flightReq.setDescription("IT");
         FlightDTO flightDTO = flightService.create(flightReq);
-        SeatDTO seat = new SeatDTO();
+        SeatCreateDTO seat = new SeatCreateDTO();
         seat.setSeatPrice(BigDecimal.ONE);
         seat.setSeatNumber("A12");
-        List<SeatDTO> seatDTOS = new ArrayList<>();
+        List<SeatCreateDTO> seatDTOS = new ArrayList<>();
         seatDTOS.add(seat);
         SeatCreateRequest seatCreateRequest = new SeatCreateRequest(flightDTO.getId(), seatDTOS);
 

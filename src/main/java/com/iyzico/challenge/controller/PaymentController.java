@@ -6,6 +6,7 @@ import com.iyzico.challenge.dto.request.SeatCreateRequest;
 import com.iyzico.challenge.dto.response.PaymentResponse;
 import com.iyzico.challenge.exception.NotFoundException;
 import com.iyzico.challenge.exception.PaymentException;
+import com.iyzico.challenge.exception.SeatTakenException;
 import com.iyzico.challenge.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<PaymentResponse> buySeat(@RequestBody PaymentDTO request) throws PaymentException {
+    public ResponseEntity<PaymentResponse> buySeat(@RequestBody PaymentDTO request) throws PaymentException, SeatTakenException, NotFoundException {
         return ResponseEntity.ok().body(paymentService.pay(request));
     }
 }
