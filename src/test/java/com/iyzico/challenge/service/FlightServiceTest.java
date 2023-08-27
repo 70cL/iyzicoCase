@@ -103,7 +103,6 @@ public class FlightServiceTest {
 
     @Test(expected = NotFoundException.class)
     public void testUpdateWhenIdNotFoundThenNotFoundExceptionThrown() throws NotFoundException {
-        // Arrange
         Long flightId = 1L;
         FlightUpdateRequest request = new FlightUpdateRequest();
         request.setFlightName("Updated Flight");

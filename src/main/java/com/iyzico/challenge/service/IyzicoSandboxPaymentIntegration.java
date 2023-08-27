@@ -1,7 +1,6 @@
 package com.iyzico.challenge.service;
 
 import com.iyzico.challenge.entity.Seat;
-import com.iyzico.challenge.exception.SeatTakenException;
 import com.iyzipay.Options;
 import com.iyzipay.model.*;
 import com.iyzipay.request.CreatePaymentRequest;

@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class SeatService {
-    private final FlightRepository flightRepository;
     private final SeatRepository seatRepository;
     private final FlightService flightService;
     private final ModelMapper modelMapper;

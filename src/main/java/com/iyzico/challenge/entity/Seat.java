@@ -9,13 +9,15 @@ import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(uniqueConstraints={
+        @UniqueConstraint(columnNames = {"seatNumber", "flight_id"})
+})
 @Where(clause = "DELETE_FLAG = false")
 public class Seat extends AbstractEntityBase{
     @Id
