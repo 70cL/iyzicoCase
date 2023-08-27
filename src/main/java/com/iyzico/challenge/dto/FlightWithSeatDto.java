@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class FlightWithSeatDto extends FlightDTO{
     private List<SeatDTO> seats;
 }

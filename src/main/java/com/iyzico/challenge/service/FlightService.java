@@ -45,7 +45,7 @@ public class FlightService {
         Page<Flight> flights = flightRepository.findAll(PageRequest.of(page,pageSize));
         List<FlightWithSeatDto> content = flights.getContent().stream().map(this::convertToDtoTest).collect(Collectors.toList());
 
-        return new PageResponseDTO<>(flights.getSize(), flights.getTotalElements(), flights.getTotalPages(), content);
+        return new PageResponseDTO<>(flights.getContent().size(), flights.getTotalElements(), flights.getTotalPages(), content);
     }
 
     public FlightDTO create(FlightCreateRequest request) {

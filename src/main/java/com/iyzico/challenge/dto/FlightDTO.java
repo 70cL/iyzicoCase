@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FlightDTO {
+    private Long id;
     private String flightName;
     private String callSign;
     private String description;

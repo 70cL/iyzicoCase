@@ -23,25 +23,25 @@ public class FlightController {
     private final FlightService flightService;
 
     @GetMapping("/{page}/{pageSize}")
-    public ResponseEntity<PageResponseDTO<FlightDTO>> getFlights(@PathVariable Integer page, @PathVariable Integer pageSize) throws NotFoundException {
+    public ResponseEntity<PageResponseDTO<FlightDTO>> getFlights(@PathVariable Integer page, @PathVariable Integer pageSize) {
         PageResponseDTO<FlightDTO> flightDTOs = flightService.getFlights(page, pageSize);
         return ResponseEntity.ok().body(flightDTOs);
     }
 
-    @GetMapping("test/{page}/{pageSize}")
-    public ResponseEntity<PageResponseDTO<FlightWithSeatDto>> getFlightsWithSeat(@PathVariable Integer page, @PathVariable Integer pageSize) throws NotFoundException {
+    @GetMapping("get-flight-with-seats/{page}/{pageSize}")
+    public ResponseEntity<PageResponseDTO<FlightWithSeatDto>> getFlightsWithSeat(@PathVariable Integer page, @PathVariable Integer pageSize) {
         PageResponseDTO<FlightWithSeatDto> flightDTOs = flightService.getFlightsWithSeats(page, pageSize);
         return ResponseEntity.ok().body(flightDTOs);
     }
 
     @PostMapping
-    public ResponseEntity<FlightDTO> createFlight(@Valid @RequestBody FlightCreateRequest request) {
+    public ResponseEntity<FlightDTO> createFlight(@RequestBody FlightCreateRequest request) {
         FlightDTO flightDTO = flightService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(flightDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FlightDTO> updateFlight(@PathVariable Long id, @Valid @RequestBody FlightUpdateRequest request) throws NotFoundException {
+    public ResponseEntity<FlightDTO> updateFlight(@PathVariable Long id, @RequestBody FlightUpdateRequest request) throws NotFoundException {
         FlightDTO flightDTO = flightService.update(id, request);
         return ResponseEntity.ok().body(flightDTO);
     }

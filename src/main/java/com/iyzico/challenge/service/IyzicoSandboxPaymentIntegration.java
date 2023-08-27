@@ -1,6 +1,7 @@
 package com.iyzico.challenge.service;
 
 import com.iyzico.challenge.entity.Seat;
+import com.iyzico.challenge.exception.SeatTakenException;
 import com.iyzipay.Options;
 import com.iyzipay.model.*;
 import com.iyzipay.request.CreatePaymentRequest;
@@ -28,6 +29,10 @@ public class IyzicoSandboxPaymentIntegration {
         request.setShippingAddress(getAddress(request));
         request.setBillingAddress(getBillingAddress(request));
         request.setBasketItems(getBasketItems(seats));
+
+        if(seats.size() == 1){
+            throw new RuntimeException();
+        }
 
         return Payment.create(request, this.connect());
     }

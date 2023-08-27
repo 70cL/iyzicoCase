@@ -16,7 +16,11 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(SeatTakenException.class)
-    public ResponseEntity<Object> handleDuplicateUserException(SeatTakenException seatTakenException, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(seatTakenException);
+    public ResponseEntity<Object> handleSeatTakenException(SeatTakenException seatTakenException, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(seatTakenException);
+    }
+    @ExceptionHandler(PaymentException.class)
+    public ResponseEntity<Object> handlePaymentException(PaymentException paymentException, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(paymentException);
     }
 }

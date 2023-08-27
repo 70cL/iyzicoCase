@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SeatDTO {
+    private Long id;
     private String seatNumber;
     private BigDecimal seatPrice;
+    private Integer version;
 }
