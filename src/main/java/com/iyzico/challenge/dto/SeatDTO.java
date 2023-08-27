@@ -18,5 +18,4 @@ public class SeatDTO {
     private Long id;
     private String seatNumber;
     private BigDecimal seatPrice;
-    private Integer version;
 }

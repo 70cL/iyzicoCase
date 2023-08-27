@@ -19,6 +19,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
@@ -36,38 +37,35 @@ public class PaymentService {
                 seats.add(seat);
             }
             catch (Exception ex) {
-                log.error("Selected Seat already sold or removed");
+                log.error("Selected Seat already sold");
                 throw new PaymentException();
             }
         }
-
-        save(seats);
 
         Payment iyzicoPaymentResponse = iyzicoSandboxPaymentIntegration.pay(seats);
         PaymentResponse response = new PaymentResponse();
         response.setResult(Status.SUCCESS.getValue().equals(iyzicoPaymentResponse.getStatus()) ? Status.SUCCESS.getValue() : Status.FAILURE.getValue());
         response.setPaymentId(iyzicoPaymentResponse.getPaymentId());
-//        if(Status.SUCCESS.getValue().equals(iyzicoPaymentResponse.getStatus())){
-//            save(response, seats);
-//        }
+        if(Status.SUCCESS.getValue().equals(iyzicoPaymentResponse.getStatus())){
+            save(response, seats);
+        }
 
         return response;
     }
 
-
-    public void save(List<Seat> seats) {
+    public void save(PaymentResponse response, List<Seat> seats) {
         seatService.updateSeatsStatus(seats);
-        savePayment(seats);
-        //log.info("Payment Id : {} - Payment Result : {} - Payment completed!", response.getPaymentId(), response.getResult());
+        savePayment(response, seats);
+        log.info("Payment Id : {} - Payment Result : {} - Payment completed!", response.getPaymentId(), response.getResult());
     }
 
-    public void savePayment(List<Seat> seats) {
+    public void savePayment(PaymentResponse response, List<Seat> seats) {
         for(Seat seat : seats) {
             com.iyzico.challenge.entity.Payment payment = new com.iyzico.challenge.entity.Payment();
             payment.setPrice(seat.getSeatPrice());
             payment.setSeat(seat);
             payment.setFlight(seat.getFlight());
-            //payment.setBankResponse(response.getResult());
+            payment.setBankResponse(response.getResult());
             paymentRepository.save(payment);
         }
     }

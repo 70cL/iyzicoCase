@@ -21,8 +21,6 @@ public abstract class AbstractEntityBase {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     private Boolean deleteFlag = false;
-    @Version
-    private Integer version;
 
     @PreUpdate
     private void onUpdate(){

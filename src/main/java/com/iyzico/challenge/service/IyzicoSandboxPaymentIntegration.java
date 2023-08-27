@@ -7,6 +7,8 @@ import com.iyzipay.model.*;
 import com.iyzipay.request.CreatePaymentRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class IyzicoSandboxPaymentIntegration {
     private String secretKey;
     @Value("${iyzico.base-url}")
     private String baseUrl;
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Payment pay(List<Seat> seats){
         CreatePaymentRequest request = getCreatePaymentRequest(sumPrice(seats));
 
@@ -29,10 +33,6 @@ public class IyzicoSandboxPaymentIntegration {
         request.setShippingAddress(getAddress(request));
         request.setBillingAddress(getBillingAddress(request));
         request.setBasketItems(getBasketItems(seats));
-
-        if(seats.size() == 1){
-            throw new RuntimeException();
-        }
 
         return Payment.create(request, this.connect());
     }

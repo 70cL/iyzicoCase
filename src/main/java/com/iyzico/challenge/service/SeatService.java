@@ -35,7 +35,7 @@ public class SeatService {
         seats.forEach(p -> p.setFlight(flight));
         List<Seat> saved= seatRepository.saveAllAndFlush(seats);
         log.info(seats.size() + " seat added successfully!");
-        return saved.stream().map((element) -> modelMapper.map(element, SeatDTO.class)).collect(Collectors.toList());
+        return saved.stream().map(element -> modelMapper.map(element, SeatDTO.class)).collect(Collectors.toList());
     }
 
     @Transactional
