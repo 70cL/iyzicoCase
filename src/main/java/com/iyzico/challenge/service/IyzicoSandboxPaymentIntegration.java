@@ -1,5 +1,6 @@
 package com.iyzico.challenge.service;
 
+import com.iyzico.challenge.entity.Seat;
 import com.iyzipay.Options;
 import com.iyzipay.model.*;
 import com.iyzipay.request.CreatePaymentRequest;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class IyzicoPaymentIntegration {
+public class IyzicoSandboxPaymentIntegration {
 
     @Value("${iyzico.api-key}")
     private String apiKey;
@@ -19,30 +20,35 @@ public class IyzicoPaymentIntegration {
     private String secretKey;
     @Value("${iyzico.base-url}")
     private String baseUrl;
-    public Payment pay(){
-        CreatePaymentRequest request = getCreatePaymentRequest();
+    public Payment pay(List<Seat> seats){
+        CreatePaymentRequest request = getCreatePaymentRequest(sumPrice(seats));
 
         request.setPaymentCard(getPaymentCard(request));
         request.setBuyer(getBuyer(request));
         request.setShippingAddress(getAddress(request));
         request.setBillingAddress(getBillingAddress(request));
-        request.setBasketItems(getBasketItems());
+        request.setBasketItems(getBasketItems(seats));
 
-        Payment payment = Payment.create(request, this.connect());
-
-        return payment;
+        return Payment.create(request, this.connect());
     }
 
-    private static List<BasketItem> getBasketItems() {
+    private BigDecimal sumPrice(List<Seat> seats) {
+        return seats.stream()
+                .map(Seat::getSeatPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private static List<BasketItem> getBasketItems(List<Seat> seats) {
         List<BasketItem> basketItems = new ArrayList<>();
-        BasketItem firstBasketItem = new BasketItem();
-        firstBasketItem.setId("BI101");
-        firstBasketItem.setName("Binocular");
-        firstBasketItem.setCategory1("Collectibles");
-        firstBasketItem.setCategory2("Accessories");
-        firstBasketItem.setItemType(BasketItemType.PHYSICAL.name());
-        firstBasketItem.setPrice(new BigDecimal("0.3"));
-        basketItems.add(firstBasketItem);
+        seats.forEach(seat -> {
+            BasketItem basketItem = new BasketItem();
+            basketItem.setId(seat.getSeatNumber());
+            basketItem.setName("Flight Ticket");
+            basketItem.setCategory1("Flight");
+            basketItem.setItemType(BasketItemType.VIRTUAL.name());
+            basketItem.setPrice(seat.getSeatPrice());
+            basketItems.add(basketItem);
+        });
         return basketItems;
     }
 
@@ -99,12 +105,12 @@ public class IyzicoPaymentIntegration {
         return paymentCard;
     }
 
-    private static CreatePaymentRequest getCreatePaymentRequest() {
+    private static CreatePaymentRequest getCreatePaymentRequest(BigDecimal price) {
         CreatePaymentRequest request = new CreatePaymentRequest();
         request.setLocale(Locale.TR.getValue());
         request.setConversationId("123456789");
-        request.setPrice(new BigDecimal("1"));
-        request.setPaidPrice(new BigDecimal("1.2"));
+        request.setPrice(price);
+        request.setPaidPrice(price);
         request.setCurrency(Currency.TRY.name());
         request.setInstallment(1);
         request.setBasketId("B67832");
